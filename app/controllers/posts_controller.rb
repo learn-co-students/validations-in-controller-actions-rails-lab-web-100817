@@ -1,7 +1,9 @@
+require 'pry'
 class PostsController < ApplicationController
   before_action :set_post!, only: [:show, :edit, :update]
 
   def show
+    @post = Post.find(params[:id])
   end
 
   def edit
@@ -9,8 +11,12 @@ class PostsController < ApplicationController
 
   def update
     @post.update(post_params)
-
-    redirect_to post_path(@post)
+    # binding.pry
+    if @post.valid?
+      redirect_to post_path(@post)
+    else
+      render :edit
+    end
   end
 
   private
